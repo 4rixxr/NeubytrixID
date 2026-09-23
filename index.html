@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="ESPC — Ethergeon Stage, Plaza and Corporation. Dare to be Epic!">
+<title>ESPC — Dare to be Epic!</title>
+<style>
+:root{
+  --bg:#ffffff; --bg2:#f7f7f8; --surface:rgba(255,255,255,.72);
+  --text:#101014; --muted:#666873; --line:rgba(16,16,20,.10);
+  --shadow:0 20px 70px rgba(20,20,30,.10);
+  --accent1:#bcebdc; --accent2:#ff4f93; --accent3:#8b4cff;
+  --accent:#bcebdc; --accent-soft:rgba(188,235,220,.34);
+  --nav:rgba(255,255,255,.70);
+  --radius:28px; --ease:cubic-bezier(.2,.8,.2,1);
+}
+html.dark{
+  --bg:#08080b; --bg2:#111116; --surface:rgba(20,20,25,.70);
+  --text:#f7f7f8; --muted:#a4a4ae; --line:rgba(255,255,255,.10);
+  --shadow:0 24px 80px rgba(0,0,0,.35);
+  --nav:rgba(8,8,11,.70);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  overflow-x:hidden;transition:background .5s var(--ease),color .5s var(--ease)
+}
+button,a{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+::selection{background:var(--accent);color:#101014}
+.container{width:min(1180px,calc(100% - 40px));margin:auto}
+.hidden{display:none!important}
+.page{min-height:100vh}
+.topbar{
+  position:fixed;z-index:50;top:0;left:0;right:0;height:76px;
+  display:flex;align-items:center;background:var(--nav);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  border-bottom:1px solid transparent;transition:.35s var(--ease)
+}
+.topbar.scrolled{border-color:var(--line);box-shadow:0 8px 30px rgba(0,0,0,.04)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{
+  display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:-1.5px;font-size:25px;
+  border:1px solid var(--line);background:var(--surface);color:var(--text);
+  padding:7px 15px 7px 8px;border-radius:18px;box-shadow:0 10px 30px rgba(20,20,30,.06);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  transition:.28s var(--ease);text-align:left;
+}
+.brand:hover{transform:translateY(-1px);border-color:rgba(160,75,210,.22);box-shadow:0 14px 34px rgba(20,20,30,.09)}
+.brand-mark{
+  width:42px;height:42px;flex:0 0 42px;border-radius:13px;overflow:hidden;
+  background:linear-gradient(135deg,#ff536f,#9a4cff);display:grid;place-items:center;
+  color:#fff;font-size:15px;font-weight:950;box-shadow:0 8px 25px rgba(160,75,210,.25);
+}
+.brand-mark img{width:100%;height:100%;display:block;object-fit:cover}
+.brand-copy{display:flex;flex-direction:column;min-width:0;line-height:1}
+.brand-title{font-size:25px;line-height:1;letter-spacing:-1.5px}
+.brand small{display:block;font-size:8.5px;line-height:1.2;letter-spacing:.15px;color:var(--muted);font-weight:750;margin-top:5px;white-space:nowrap}
+.navlinks{display:flex;align-items:center;gap:7px}
+.navlinks button,.navlinks a{
+  border:0;background:transparent;color:var(--muted);padding:10px 13px;border-radius:999px;
+  transition:.25s var(--ease);font-size:14px;font-weight:700
+}
+.navlinks button:hover,.navlinks a:hover{color:var(--text);background:var(--bg2)}
+.nav-actions{display:flex;align-items:center;gap:8px}
+.icon-btn{
+  width:42px;height:42px;border:1px solid var(--line);border-radius:50%;
+  background:var(--surface);color:var(--text);display:grid;place-items:center;backdrop-filter:blur(12px);
+  transition:.25s var(--ease)
+}
+.icon-btn:hover{transform:translateY(-2px);border-color:var(--accent)}
+.menu-btn{display:none}
+.hero{position:relative;min-height:100vh;display:grid;align-items:center;padding:130px 0 90px;overflow:hidden}
+.hero .container{position:relative;z-index:2}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.42;pointer-events:none;animation:float 11s ease-in-out infinite}
+.orb.a{width:360px;height:360px;background:var(--accent);left:-100px;top:17%}
+.orb.b{width:440px;height:440px;background:linear-gradient(135deg,#ff557b,#934cff);right:-160px;top:4%;animation-delay:-4s}
+.orb.c{width:300px;height:300px;background:linear-gradient(135deg,#ff9c4a,#ff4fa0);right:18%;bottom:-170px;animation-delay:-7s}
+@keyframes float{50%{transform:translate3d(25px,-24px,0) scale(1.05)}}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(14px);padding:8px 13px;border-radius:999px;color:var(--muted);font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 15px var(--accent)}
+h1{font-size:clamp(58px,10vw,132px);line-height:.86;letter-spacing:-.075em;margin:24px 0 24px;max-width:900px}
+.gradient-text{background:linear-gradient(100deg,#ff536d,#c44bd4 45%,#784bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-copy{max-width:650px;color:var(--muted);font-size:clamp(17px,2vw,21px);line-height:1.65}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.btn{
+  border:1px solid var(--line);border-radius:999px;padding:14px 20px;background:var(--text);color:var(--bg);
+  font-weight:850;transition:.3s var(--ease);display:inline-flex;align-items:center;gap:9px
+}
+.btn:hover{transform:translateY(-3px);box-shadow:0 15px 35px rgba(0,0,0,.15)}
+.btn.secondary{background:var(--surface);color:var(--text);backdrop-filter:blur(14px)}
+.btn.accent{background:linear-gradient(100deg,#ff536d,#a44cff);color:#fff;border:0}
+section{padding:110px 0;position:relative}
+.section-head{display:flex;justify-content:space-between;gap:30px;align-items:end;margin-bottom:42px}
+.kicker{color:var(--muted);font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.15em}
+h2{font-size:clamp(38px,6vw,76px);line-height:.95;letter-spacing:-.065em;margin:10px 0 0}
+.section-head p{max-width:430px;color:var(--muted);line-height:1.65;margin:0}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.stat{padding:28px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);backdrop-filter:blur(18px);box-shadow:var(--shadow)}
+.stat strong{display:block;font-size:56px;letter-spacing:-.06em}.stat span{color:var(--muted);font-weight:700}
+.mall-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.mall-card{
+  position:relative;min-height:440px;overflow:hidden;border:1px solid var(--line);border-radius:34px;clip-path:inset(0 round 34px);
+  padding:28px;display:flex;flex-direction:column;justify-content:space-between;background:var(--bg2);
+  transition:.5s var(--ease);isolation:isolate
+}
+.mall-card:before{content:"";position:absolute;inset:0;z-index:0;border-radius:inherit;filter:blur(55px);opacity:.55;transition:.5s var(--ease);pointer-events:none;transform:scale(1.12)}
+.mall-card.c1:before{background:radial-gradient(circle at 30% 25%,#bcebdc,transparent 55%)}
+.mall-card.c2:before{background:radial-gradient(circle at 70% 25%,#ff4f93,#ffc04f,transparent 60%)}
+.mall-card.c3:before{background:radial-gradient(circle at 70% 25%,#ff526e,#8b4cff,transparent 60%)}
+.mall-card:hover{transform:translateY(-8px);box-shadow:var(--shadow)}
+.mall-card:hover:before{transform:scale(1.22);opacity:.8}
+.mall-card > *{position:relative;z-index:1}.card-top{display:flex;justify-content:space-between;align-items:center}
+.number{font-size:12px;font-weight:900;letter-spacing:.12em;color:var(--muted)}
+.pill{padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.18);backdrop-filter:blur(10px);font-size:11px;font-weight:850}
+.mall-card h3{font-size:48px;letter-spacing:-.07em;margin:0 0 5px}
+.mall-card p{color:var(--muted);line-height:1.6;margin:0;max-width:280px}
+.arrow{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--text);color:var(--bg);transition:.35s var(--ease)}
+.mall-card:hover .arrow{transform:translateX(8px) rotate(-10deg)}
+.experience-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+.exp-card{min-height:260px;padding:30px;border:1px solid var(--line);border-radius:30px;background:var(--surface);backdrop-filter:blur(18px);position:relative;overflow:hidden}
+.exp-card.large{min-height:550px;display:flex;flex-direction:column;justify-content:end}
+.exp-card.large:before{content:"";position:absolute;width:380px;height:380px;border-radius:50%;right:-130px;top:-130px;background:linear-gradient(135deg,var(--accent),#a34cff);filter:blur(45px);opacity:.35}
+.exp-list{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.exp-card h3{font-size:27px;margin:0 0 10px;letter-spacing:-.04em}.exp-card p{color:var(--muted);line-height:1.6;margin:0}
+.contact{border:1px solid var(--line);border-radius:36px;padding:55px;background:linear-gradient(135deg,var(--accent-soft),transparent 55%),var(--bg2);overflow:hidden}
+.contact h2{max-width:700px}.contact p{color:var(--muted);max-width:560px;line-height:1.7}
+footer{padding:45px 0 70px;border-top:1px solid var(--line)}
+.footer-row{display:flex;justify-content:space-between;gap:25px;align-items:end}.footer-copy{color:var(--muted);font-size:13px;line-height:1.7}
+.footer-links{display:flex;gap:16px;color:var(--muted);font-size:13px;font-weight:700}.footer-links a:hover{color:var(--text)}
+.page-view{display:none;min-height:100vh;padding-top:76px}.page-view.active{display:block}
+.mall-hero{padding:105px 0 80px;min-height:70vh;display:grid;align-items:end;overflow:hidden}
+.mall-hero .container{position:relative;z-index:2}
+.mall-hero h1{max-width:900px}
+.mall-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.meta-chip{padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);backdrop-filter:blur(12px);font-size:13px;font-weight:750;color:var(--muted)}
+.mall-page .hero-glow{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.mall-page .hero-glow:before,.mall-page .hero-glow:after{content:"";position:absolute;border-radius:50%;filter:blur(75px);opacity:.45;animation:float 12s ease-in-out infinite}
+.mall-page .hero-glow:before{width:500px;height:500px;left:-120px;top:5%}
+.mall-page .hero-glow:after{width:540px;height:540px;right:-140px;top:-5%;animation-delay:-5s}
+.mall-page[data-theme="espc1"]{--accent:#bcebdc;--accent-soft:rgba(188,235,220,.28)}
+.mall-page[data-theme="espc2"]{--accent:#ff739f;--accent-soft:rgba(255,115,159,.22)}
+.mall-page[data-theme="espc3"]{--accent:#a14dff;--accent-soft:rgba(161,77,255,.22)}
+.mall-page[data-theme="espc1"] .hero-glow:before{background:#bcebdc}.mall-page[data-theme="espc1"] .hero-glow:after{background:#d5fff1}
+.mall-page[data-theme="espc2"] .hero-glow:before{background:#ff4f93}.mall-page[data-theme="espc2"] .hero-glow:after{background:#ffc34d}
+.mall-page[data-theme="espc3"] .hero-glow:before{background:#ff536e}.mall-page[data-theme="espc3"] .hero-glow:after{background:#874cff}
+.back{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-weight:800;margin-bottom:30px}.back:hover{color:var(--text)}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:start}.detail-grid p{color:var(--muted);line-height:1.8;font-size:17px}.detail-box{border:1px solid var(--line);border-radius:30px;padding:28px;background:var(--surface);backdrop-filter:blur(18px)}
+.detail-box h3{margin:0 0 8px;font-size:14px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+.address{font-size:20px;font-weight:800;line-height:1.45}
+.gallery{display:grid;grid-template-columns:1.5fr 1fr 1fr;grid-auto-rows:220px;gap:12px}
+.gallery-item{position:relative;border:0;padding:0;border-radius:24px;overflow:hidden;background:var(--bg2);border:1px solid var(--line);min-width:0}
+.gallery-item:first-child{grid-row:span 2}.gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:.6s var(--ease)}
+.gallery-item:hover img{transform:scale(1.06)}.gallery-overlay{position:absolute;inset:auto 12px 12px 12px;padding:10px 12px;border-radius:14px;background:rgba(0,0,0,.45);backdrop-filter:blur(10px);color:#fff;font-size:12px;font-weight:800;text-align:left}
+.placeholder{width:100%;height:100%;display:grid;place-items:center;padding:20px;text-align:center;color:var(--muted);font-weight:800;background:radial-gradient(circle at 40% 30%,var(--accent-soft),transparent 55%),var(--bg2)}
+
+.event-page{min-height:100vh;padding-top:76px;background:radial-gradient(circle at 10% 10%,var(--accent-soft),transparent 34%),var(--bg)}
+.event-hero{position:relative;min-height:52vh;display:grid;align-items:end;padding:100px 0 75px;overflow:hidden}
+.event-hero .container{position:relative;z-index:2}
+.event-hero:before,.event-hero:after{content:"";position:absolute;border-radius:50%;filter:blur(80px);opacity:.38;animation:float 12s ease-in-out infinite;pointer-events:none}
+.event-hero:before{width:420px;height:420px;left:-140px;top:4%;background:var(--accent)}
+.event-hero:after{width:480px;height:480px;right:-150px;top:-10%;background:linear-gradient(135deg,#ff536e,#a44cff);animation-delay:-5s}
+.event-list{display:grid;gap:18px}
+.event-card{position:relative;border:1px solid var(--line);border-radius:30px;padding:28px;background:linear-gradient(135deg,var(--accent-soft),transparent 55%),var(--surface);backdrop-filter:blur(18px);overflow:hidden;transition:.35s var(--ease)}
+.event-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+.event-card:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-80px;top:-90px;background:var(--accent);filter:blur(70px);opacity:.18}
+.event-date{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.48);border:1px solid var(--line);font-size:12px;font-weight:850;color:var(--muted);backdrop-filter:blur(10px)}
+html.dark .event-date{background:rgba(255,255,255,.06)}
+.event-card h3{font-size:clamp(27px,4vw,42px);letter-spacing:-.055em;margin:18px 0 9px}
+.event-card p{color:var(--muted);line-height:1.75;max-width:780px;margin:0}
+.event-meta{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+.event-meta span{padding:8px 11px;border-radius:12px;background:var(--bg2);border:1px solid var(--line);font-size:12px;font-weight:800;color:var(--muted)}
+.video-section{position:relative;overflow:hidden}
+.video-shell{border:1px solid var(--line);border-radius:36px;padding:14px;background:linear-gradient(135deg,var(--accent-soft),transparent 60%),var(--surface);box-shadow:var(--shadow);backdrop-filter:blur(18px)}
+.video-frame{position:relative;aspect-ratio:16/9;border-radius:27px;overflow:hidden;background:#08080b;border:1px solid var(--line)}
+.video-frame iframe,.video-frame video{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover}
+.video-placeholder{height:100%;display:grid;place-items:center;text-align:center;padding:30px;color:#fff;background:radial-gradient(circle at 30% 30%,rgba(188,235,220,.25),transparent 45%),linear-gradient(135deg,#111,#24242b)}
+.video-placeholder strong{display:block;font-size:clamp(26px,4vw,46px);letter-spacing:-.05em;margin-bottom:8px}
+.video-placeholder span{color:rgba(255,255,255,.65);font-size:14px}
+.lightbox{position:fixed;z-index:100;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(18px);display:none;align-items:center;justify-content:center;padding:25px}
+.lightbox.open{display:flex}.lightbox-content{width:min(1100px,94vw);height:min(760px,88vh);position:relative;display:flex;align-items:center;justify-content:center}
+.lightbox img{max-width:100%;max-height:100%;border-radius:20px;box-shadow:0 30px 100px rgba(0,0,0,.5);object-fit:contain}
+.lb-btn{position:absolute;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.12);color:#fff;backdrop-filter:blur(12px);display:grid;place-items:center;font-size:22px}
+.lb-close{right:0;top:0}.lb-prev{left:0;top:50%;transform:translateY(-50%)}.lb-next{right:0;top:50%;transform:translateY(-50%)}
+.lb-count{position:absolute;bottom:0;left:50%;transform:translateX(-50%);color:#fff;background:rgba(0,0,0,.4);padding:8px 12px;border-radius:999px;font-size:12px;font-weight:800}
+.reveal{opacity:0;transform:translateY(24px);filter:blur(5px);transition:opacity .8s var(--ease),transform .8s var(--ease),filter .8s var(--ease)}
+.reveal.visible{opacity:1;transform:none;filter:none}
+.toast{position:fixed;z-index:120;left:50%;bottom:25px;transform:translate(-50%,20px);opacity:0;background:var(--text);color:var(--bg);padding:12px 16px;border-radius:999px;font-size:13px;font-weight:800;transition:.3s}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:900px){
+  /* Mobile menu: intentionally matte/opaque so page artwork never bleeds through. */
+  .navlinks{display:none;position:absolute;left:20px;right:20px;top:70px;padding:12px;border:1px solid rgba(16,16,20,.10);border-radius:22px;background:#ffffff;backdrop-filter:none;-webkit-backdrop-filter:none;flex-direction:column;align-items:stretch;box-shadow:0 24px 70px rgba(20,20,30,.14);z-index:60;isolation:isolate}
+  html.dark .navlinks{background:#111116;border-color:rgba(255,255,255,.10);box-shadow:0 24px 80px rgba(0,0,0,.45)}
+  .navlinks.open{display:flex}.navlinks button,.navlinks a{text-align:left}
+  .menu-btn{display:grid}.stat-grid,.mall-grid{grid-template-columns:1fr}.experience-grid,.detail-grid{grid-template-columns:1fr}
+  .exp-list{grid-template-columns:1fr}.section-head{display:block}.section-head p{margin-top:15px}
+  .mall-card{min-height:360px}.gallery{grid-template-columns:1fr 1fr;grid-auto-rows:190px}.gallery-item:first-child{grid-column:span 2;grid-row:span 1}
+}
+@media(max-width:600px){
+  .container{width:min(100% - 28px,1180px)}
+  .topbar{height:68px;background:#ffffff;backdrop-filter:none;-webkit-backdrop-filter:none}
+  html.dark .topbar{background:#08080b}
+  .brand{font-size:21px;padding:6px 11px 6px 6px;border-radius:16px;gap:8px}.brand-mark{width:36px;height:36px;flex-basis:36px;border-radius:11px}.brand-title{font-size:21px}.brand small{font-size:7.5px;margin-top:4px}
+  .hero{padding-top:110px}.hero h1{font-size:clamp(54px,18vw,84px)}section{padding:80px 0}
+  .stat{padding:22px}.stat strong{font-size:48px}.mall-card{min-height:330px;padding:23px;border-radius:28px;clip-path:inset(0 round 28px)}
+  .mall-card h3{font-size:42px}.mall-hero{padding:75px 0 55px;min-height:65vh}.mall-hero h1{font-size:clamp(54px,17vw,90px)}
+  .gallery{grid-template-columns:1fr;grid-auto-rows:230px}.gallery-item:first-child{grid-column:auto}.contact{padding:30px;border-radius:28px}
+  .footer-row{display:block}.footer-links{margin-top:18px;flex-wrap:wrap}.actions .btn{width:100%;justify-content:center}
+  .lb-prev{left:4px}.lb-next{right:4px}.lb-close{right:4px;top:4px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition-duration:.01ms!important}
+  .reveal{opacity:1;transform:none;filter:none}
+}
+</style>
+</head>
+<body>
+<header class="topbar" id="topbar">
+  <div class="container nav">
+    <button class="brand" data-go="home" aria-label="ESPC Home" title="Go to ESPC Home">
+      <span class="brand-mark" aria-hidden="true"><img id="espcLogo" alt="ESPC logo"></span>
+      <span class="brand-copy"><span class="brand-title">ESPC</span><small>Ethergeon Stage, Plaza and Corporation</small></span>
+    </button>
+    <nav class="navlinks" id="navlinks" aria-label="Main navigation">
+      <button data-go="home">Home</button>
+      <button data-go="espc1">ESPC/1</button>
+      <button data-go="espc2">ESPC/2</button>
+      <button data-go="espc3">ESPC/3</button><button data-go="espc1-events">Events</button>
+      <a href="#contact" data-home-anchor>Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">☾</button>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="page-view active" id="view-home">
+    <section class="hero">
+      <div class="orb a"></div><div class="orb b"></div><div class="orb c"></div>
+      <div class="container">
+        <div class="eyebrow reveal"><span class="dot"></span> Ethergeon Stage, Plaza and Corporation</div>
+        <h1 class="reveal">Dare to be <span class="gradient-text">Epic!</span></h1>
+        <p class="hero-copy reveal">A new generation of destinations where shopping, entertainment, lifestyle and unforgettable experiences come together.</p>
+        <div class="actions reveal">
+          <button class="btn accent" data-scroll="malls">Explore Our Malls <span>→</span></button>
+          <button class="btn secondary" data-scroll="about">Discover ESPC</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><div class="kicker">01 — The Brand</div><h2>More Than<br>a Mall.</h2></div>
+          <p>ESPC creates destinations designed for people to shop, connect, discover, celebrate and experience something extraordinary.</p>
+        </div>
+        <div class="stat-grid">
+          <div class="stat reveal"><strong>3</strong><span>Current Locations</span></div>
+          <div class="stat reveal"><strong>1</strong><span>Growing Brand</span></div>
+          <div class="stat reveal"><strong>∞</strong><span>Epic Experiences</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="malls">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><div class="kicker">02 — Destinations</div><h2>Choose Your<br>Experience.</h2></div>
+          <p>Three destinations. One ESPC identity. Explore each generation and discover its own atmosphere.</p>
+        </div>
+        <div class="mall-grid">
+          <article class="mall-card c1 reveal">
+            <div class="card-top"><span class="number">01 / ESPC</span><span class="pill">MINT</span></div>
+            <div><h3>ESPC/1</h3><p>The First Chapter — where the ESPC journey begins.</p></div>
+            <button class="arrow" data-go="espc1" aria-label="Explore ESPC/1">→</button>
+          </article>
+          <article class="mall-card c2 reveal">
+            <div class="card-top"><span class="number">02 / ESPC</span><span class="pill">SUNSET</span></div>
+            <div><h3>ESPC/2</h3><p>The Next Experience — a vibrant destination built for discovery.</p></div>
+            <button class="arrow" data-go="espc2" aria-label="Explore ESPC/2">→</button>
+          </article>
+          <article class="mall-card c3 reveal">
+            <div class="card-top"><span class="number">03 / ESPC</span><span class="pill">AURORA</span></div>
+            <div><h3>ESPC/3</h3><p>The New Epic — a bold new chapter of the ESPC experience.</p></div>
+            <button class="arrow" data-go="espc3" aria-label="Explore ESPC/3">→</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><div class="kicker">03 — Experience</div><h2>Everything You Love.<br>One Place.</h2></div>
+        </div>
+        <div class="experience-grid">
+          <div class="exp-card large reveal"><div><div class="kicker">The ESPC Experience</div><h3 style="font-size:clamp(34px,5vw,62px);letter-spacing:-.06em;margin:10px 0">Experience More.</h3><p>From everyday moments to extraordinary nights, ESPC is designed around experiences that stay with you.</p></div></div>
+          <div class="exp-list">
+            <div class="exp-card reveal"><h3>Shopping</h3><p>Discover brands, products and new favorites.</p></div>
+            <div class="exp-card reveal"><h3>Dining</h3><p>From casual bites to memorable dining moments.</p></div>
+            <div class="exp-card reveal"><h3>Entertainment</h3><p>Make every visit more exciting.</p></div>
+            <div class="exp-card reveal"><h3>Cinema</h3><p>Stories, sound and experiences on the big screen.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="video-section" id="introducing-espc">
+      <div class="container">
+        <div class="contact reveal">
+          <div class="kicker">05 — Introducing ESPC</div>
+          <h2>Introducing<br>ESPC.</h2>
+          <p>Discover the vision, destinations and experiences behind Ethergeon Stage, Plaza and Corporation.</p>
+          <div class="video-shell"><div class="video-frame" data-video-frame></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact reveal">
+          <div class="kicker">04 — Contact</div>
+          <h2>Ready to Be Epic?</h2>
+          <p>Your next experience starts at ESPC. Replace this section with your official contact information, social links or customer service details.</p>
+          <div class="actions"><a class="btn accent" href="mailto:hello@example.com">Contact ESPC →</a></div>
+        </div>
+      </div>
+    </section>
+    <footer><div class="container footer-row"><div class="footer-copy"><strong style="color:var(--text);font-size:18px">ESPC</strong><br>Ethergeon Stage, Plaza and Corporation<br>© 2026 ESPC. Dare to be Epic!</div><div class="footer-links"><a href="#malls">Our Malls</a><a href="#experience">Experience</a><a href="#introducing-espc">Introducing ESPC</a><a href="#contact">Contact</a></div></div></footer>
+  </div>
+
+  <div class="page-view mall-page" id="view-espc1" data-theme="espc1">
+    <div class="mall-hero"><div class="hero-glow"></div><div class="container">
+      <button class="back" data-go="home">← Back to Home</button>
+      <div class="eyebrow"><span class="dot"></span> Generation 01</div>
+      <h1>ESPC/<span class="gradient-text">1</span></h1>
+      <p class="hero-copy" data-field="description">Tulis deskripsi ESPC/1 di bagian EDIT ESPC/1 HERE pada JavaScript.</p>
+      <div class="mall-meta"><span class="meta-chip" data-field="subtitle">The First Chapter</span><span class="meta-chip" data-field="address">ISI ALAMAT ESPC/1 DI SINI</span></div>
+    </div></div>
+    <section><div class="container"><div class="detail-grid"><div class="reveal"><div class="kicker">About ESPC/1</div><h2>Where it<br>begins.</h2></div><div class="detail-box reveal"><h3>About</h3><p data-field="description2">Tulis deskripsi ESPC/1 di bagian EDIT ESPC/1 HERE.</p><h3 style="margin-top:28px">Location</h3><div class="address" data-field="address2">ISI ALAMAT ESPC/1 DI SINI</div><div class="actions"><a class="btn accent" data-field="map" href="#" target="_blank" rel="noopener">View Location →</a></div></div></div></div></section>
+    <section><div class="container"><div class="section-head reveal"><div><div class="kicker">Preview</div><h2>Explore<br>ESPC/1.</h2></div><p>Six preview slots are ready for your own image links. Click an image to open the full gallery.</p></div><div class="gallery" data-gallery="espc1"></div></div></section>
+    <section><div class="container"><div class="contact reveal"><div class="kicker">Experience</div><h2>Shopping. Dining.<br>Entertainment.</h2><p>Customize this section with the real facilities and experiences available at ESPC/1.</p><div class="actions"><button class="btn accent" data-go="espc1-events">View Events →</button><button class="btn secondary" data-go="home">Explore Another ESPC →</button></div></div></div></section>
+    <section class="video-section"><div class="container"><div class="contact reveal"><div class="kicker">Introducing ESPC</div><h2>Experience<br>the ESPC story.</h2><p>Watch the introduction to ESPC and discover what makes each chapter epic.</p><div class="video-shell"><div class="video-frame" data-video-frame></div></div></div></div></section>
+  </div>
+
+  <div class="page-view mall-page" id="view-espc2" data-theme="espc2">
+    <div class="mall-hero"><div class="hero-glow"></div><div class="container">
+      <button class="back" data-go="home">← Back to Home</button>
+      <div class="eyebrow"><span class="dot"></span> Generation 02</div>
+      <h1>ESPC/<span class="gradient-text">2</span></h1>
+      <p class="hero-copy" data-field="description">Tulis deskripsi ESPC/2 di bagian EDIT ESPC/2 HERE pada JavaScript.</p>
+      <div class="mall-meta"><span class="meta-chip" data-field="subtitle">The Next Experience</span><span class="meta-chip" data-field="address">ISI ALAMAT ESPC/2 DI SINI</span></div>
+    </div></div>
+    <section><div class="container"><div class="detail-grid"><div class="reveal"><div class="kicker">About ESPC/2</div><h2>A brighter<br>chapter.</h2></div><div class="detail-box reveal"><h3>About</h3><p data-field="description2">Tulis deskripsi ESPC/2 di bagian EDIT ESPC/2 HERE.</p><h3 style="margin-top:28px">Location</h3><div class="address" data-field="address2">ISI ALAMAT ESPC/2 DI SINI</div><div class="actions"><a class="btn accent" data-field="map" href="#" target="_blank" rel="noopener">View Location →</a></div></div></div></div></section>
+    <section><div class="container"><div class="section-head reveal"><div><div class="kicker">Preview</div><h2>Explore<br>ESPC/2.</h2></div><p>Six preview slots are ready for your own image links. Click an image to open the full gallery.</p></div><div class="gallery" data-gallery="espc2"></div></div></section>
+    <section><div class="container"><div class="contact reveal"><div class="kicker">Experience</div><h2>Discover the<br>next experience.</h2><p>Customize this section with the real facilities and experiences available at ESPC/2.</p><div class="actions"><button class="btn accent" data-go="espc2-events">View Events →</button><button class="btn secondary" data-go="home">Explore Another ESPC →</button></div></div></div></section>
+    <section class="video-section"><div class="container"><div class="contact reveal"><div class="kicker">Introducing ESPC</div><h2>Experience<br>the ESPC story.</h2><p>Watch the introduction to ESPC and discover what makes each chapter epic.</p><div class="video-shell"><div class="video-frame" data-video-frame></div></div></div></div></section>
+  </div>
+
+  <div class="page-view mall-page" id="view-espc3" data-theme="espc3">
+    <div class="mall-hero"><div class="hero-glow"></div><div class="container">
+      <button class="back" data-go="home">← Back to Home</button>
+      <div class="eyebrow"><span class="dot"></span> Generation 03</div>
+      <h1>ESPC/<span class="gradient-text">3</span></h1>
+      <p class="hero-copy" data-field="description">Tulis deskripsi ESPC/3 di bagian EDIT ESPC/3 HERE pada JavaScript.</p>
+      <div class="mall-meta"><span class="meta-chip" data-field="subtitle">The New Epic</span><span class="meta-chip" data-field="address">ISI ALAMAT ESPC/3 DI SINI</span></div>
+    </div></div>
+    <section><div class="container"><div class="detail-grid"><div class="reveal"><div class="kicker">About ESPC/3</div><h2>The new<br>epic.</h2></div><div class="detail-box reveal"><h3>About</h3><p data-field="description2">Tulis deskripsi ESPC/3 di bagian EDIT ESPC/3 HERE.</p><h3 style="margin-top:28px">Location</h3><div class="address" data-field="address2">ISI ALAMAT ESPC/3 DI SINI</div><div class="actions"><a class="btn accent" data-field="map" href="#" target="_blank" rel="noopener">View Location →</a></div></div></div></div></section>
+    <section><div class="container"><div class="section-head reveal"><div><div class="kicker">Preview</div><h2>Explore<br>ESPC/3.</h2></div><p>Six preview slots are ready for your own image links. Click an image to open the full gallery.</p></div><div class="gallery" data-gallery="espc3"></div></div></section>
+    <section><div class="container"><div class="contact reveal"><div class="kicker">Experience</div><h2>Dare to discover<br>something epic.</h2><p>Customize this section with the real facilities and experiences available at ESPC/3.</p><div class="actions"><button class="btn accent" data-go="espc3-events">View Events →</button><button class="btn secondary" data-go="home">Explore Another ESPC →</button></div></div></div></section>
+    <section class="video-section"><div class="container"><div class="contact reveal"><div class="kicker">Introducing ESPC</div><h2>Experience<br>the ESPC story.</h2><p>Watch the introduction to ESPC and discover what makes each chapter epic.</p><div class="video-shell"><div class="video-frame" data-video-frame></div></div></div></div></section>
+  </div>
+</main>
+
+<div class="page-view event-page" id="view-espc1-events" data-theme="espc1">
+  <div class="event-hero"><div class="container">
+    <button class="back" data-go="espc1">← Back to ESPC/1</button>
+    <div class="eyebrow"><span class="dot"></span> ESPC/1 • Events</div>
+    <h1><span class="gradient-text">Events</span></h1>
+    <p class="hero-copy" data-event-field="subtitle">Moments made epic.</p>
+  </div></div>
+  <section><div class="container"><div class="section-head reveal"><div><div class="kicker">ESPC/1 Calendar</div><h2>What's<br>Happening.</h2></div><p>Events on this page belong exclusively to ESPC/1.</p></div><div class="event-list" data-events="espc1"></div></div></section>
+  <section class="video-section"><div class="container"><div class="contact reveal"><div class="kicker">Introducing ESPC</div><h2>See the story<br>behind ESPC.</h2><p>Watch the official introduction and discover the world of Ethergeon Stage, Plaza and Corporation.</p><div class="video-shell"><div class="video-frame" data-video-frame></div></div></div></div></section>
+  <footer><div class="container footer-row"><div class="footer-copy"><strong style="color:var(--text);font-size:18px">ESPC</strong><br>Ethergeon Stage, Plaza and Corporation<br>© 2026 ESPC. Dare to be Epic!</div><div class="footer-links"><button data-go="espc1" style="border:0;background:none;color:inherit;cursor:pointer;font-weight:700">Back to ESPC/1</button></div></div></footer>
+</div>
+
+<div class="page-view event-page" id="view-espc2-events" data-theme="espc2">
+  <div class="event-hero"><div class="container">
+    <button class="back" data-go="espc2">← Back to ESPC/2</button>
+    <div class="eyebrow"><span class="dot"></span> ESPC/2 • Events</div>
+    <h1><span class="gradient-text">Events</span></h1>
+    <p class="hero-copy" data-event-field="subtitle">The next experience, together.</p>
+  </div></div>
+  <section><div class="container"><div class="section-head reveal"><div><div class="kicker">ESPC/2 Calendar</div><h2>What's<br>Happening.</h2></div><p>Events on this page belong exclusively to ESPC/2.</p></div><div class="event-list" data-events="espc2"></div></div></section>
+  <section class="video-section"><div class="container"><div class="contact reveal"><div class="kicker">Introducing ESPC</div><h2>See the story<br>behind ESPC.</h2><p>Watch the official introduction and discover the world of Ethergeon Stage, Plaza and Corporation.</p><div class="video-shell"><div class="video-frame" data-video-frame></div></div></div></div></section>
+  <footer><div class="container footer-row"><div class="footer-copy"><strong style="color:var(--text);font-size:18px">ESPC</strong><br>Ethergeon Stage, Plaza and Corporation<br>© 2026 ESPC. Dare to be Epic!</div><div class="footer-links"><button data-go="espc2" style="border:0;background:none;color:inherit;cursor:pointer;font-weight:700">Back to ESPC/2</button></div></div></footer>
+</div>
+
+<div class="page-view event-page" id="view-espc3-events" data-theme="espc3">
+  <div class="event-hero"><div class="container">
+    <button class="back" data-go="espc3">← Back to ESPC/3</button>
+    <div class="eyebrow"><span class="dot"></span> ESPC/3 • Events</div>
+    <h1><span class="gradient-text">Events</span></h1>
+    <p class="hero-copy" data-event-field="subtitle">A new chapter of epic moments.</p>
+  </div></div>
+  <section><div class="container"><div class="section-head reveal"><div><div class="kicker">ESPC/3 Calendar</div><h2>What's<br>Happening.</h2></div><p>Events on this page belong exclusively to ESPC/3.</p></div><div class="event-list" data-events="espc3"></div></div></section>
+  <section class="video-section"><div class="container"><div class="contact reveal"><div class="kicker">Introducing ESPC</div><h2>See the story<br>behind ESPC.</h2><p>Watch the official introduction and discover the world of Ethergeon Stage, Plaza and Corporation.</p><div class="video-shell"><div class="video-frame" data-video-frame></div></div></div></div></section>
+  <footer><div class="container footer-row"><div class="footer-copy"><strong style="color:var(--text);font-size:18px">ESPC</strong><br>Ethergeon Stage, Plaza and Corporation<br>© 2026 ESPC. Dare to be Epic!</div><div class="footer-links"><button data-go="espc3" style="border:0;background:none;color:inherit;cursor:pointer;font-weight:700">Back to ESPC/3</button></div></div></footer>
+</div>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <div class="lightbox-content">
+    <button class="lb-btn lb-close" id="lbClose" aria-label="Close">×</button>
+    <button class="lb-btn lb-prev" id="lbPrev" aria-label="Previous">‹</button>
+    <img id="lbImage" alt="ESPC preview">
+    <button class="lb-btn lb-next" id="lbNext" aria-label="Next">›</button>
+    <div class="lb-count" id="lbCount">1 / 6</div>
+  </div>
+</div>
+<div class="toast" id="toast">Opening ESPC…</div>
+
+<script>
+// =====================================================
+// ESPC WEBSITE CONTENT
+// EDIT YOUR MALL INFORMATION BELOW
+// =====================================================
+
+// =====================================================
+// ESPC LOGO — EDIT HERE
+// Paste your Dropbox image link below.
+// Example: https://www.dropbox.com/scl/fi/.../espc-logo.png?rlkey=...&dl=0
+// The website will automatically convert Dropbox links for image display.
+// Leave empty to keep the default gradient E.
+// =====================================================
+const espcLogoUrl = "DROPBOX_LOGO_LINK_HERE";
+
+function normalizeImageUrl(url){
+  if(!url || !String(url).trim()) return "";
+  const value=String(url).trim();
+  try{
+    const u=new URL(value);
+    if(u.hostname.includes("dropbox.com")){
+      u.searchParams.set("dl","1");
+      return u.toString();
+    }
+  }catch(e){}
+  return value;
+}
+
+// =====================================================
+// EDIT ESPC/1 HERE
+// =====================================================
+const mallData = {
+  espc1:{
+    name:"ESPC/1",
+    subtitle:"The First Chapter",
+    description:"Tulis deskripsi ESPC/1 di sini. Jelaskan konsep, identitas, keunggulan, dan pengalaman yang ditawarkan oleh ESPC/1.",
+    address:"ISI ALAMAT ESPC/1 DI SINI",
+    mapUrl:"GOOGLE_MAPS_LINK_ESPC1",
+    images:[
+      "LINK GAMBAR ESPC1-1",
+      "LINK GAMBAR ESPC1-2",
+      "LINK GAMBAR ESPC1-3",
+      "LINK GAMBAR ESPC1-4",
+      "LINK GAMBAR ESPC1-5",
+      "LINK GAMBAR ESPC1-6"
+    ]
+  },
+
+// =====================================================
+// EDIT ESPC/2 HERE
+// =====================================================
+  espc2:{
+    name:"ESPC/2",
+    subtitle:"The Next Experience",
+    description:"Tulis deskripsi ESPC/2 di sini. Jelaskan konsep, identitas, keunggulan, dan pengalaman yang ditawarkan oleh ESPC/2.",
+    address:"ISI ALAMAT ESPC/2 DI SINI",
+    mapUrl:"GOOGLE_MAPS_LINK_ESPC2",
+    images:[
+      "LINK GAMBAR ESPC2-1",
+      "LINK GAMBAR ESPC2-2",
+      "LINK GAMBAR ESPC2-3",
+      "LINK GAMBAR ESPC2-4",
+      "LINK GAMBAR ESPC2-5",
+      "LINK GAMBAR ESPC2-6"
+    ]
+  },
+
+// =====================================================
+// EDIT ESPC/3 HERE
+// =====================================================
+  espc3:{
+    name:"ESPC/3",
+    subtitle:"The New Epic",
+    description:"Tulis deskripsi ESPC/3 di sini. Jelaskan konsep, identitas, keunggulan, dan pengalaman yang ditawarkan oleh ESPC/3.",
+    address:"ISI ALAMAT ESPC/3 DI SINI",
+    mapUrl:"GOOGLE_MAPS_LINK_ESPC3",
+    images:[
+      "LINK GAMBAR ESPC3-1",
+      "LINK GAMBAR ESPC3-2",
+      "LINK GAMBAR ESPC3-3",
+      "LINK GAMBAR ESPC3-4",
+      "LINK GAMBAR ESPC3-5",
+      "LINK GAMBAR ESPC3-6"
+    ]
+  }
+};
+
+// =====================================================
+// EVENTS — EDIT EACH ESPC EVENT PAGE HERE
+// Add, remove, or edit event objects freely.
+// date = date shown to visitors | time = event time
+// title = event title | description = event description
+// =====================================================
+const eventData = {
+  // ===== EDIT ESPC/1 EVENTS HERE =====
+  espc1:{
+    title:"ESPC/1 Events",
+    subtitle:"Moments made epic.",
+    events:[
+      {date:"DATE ESPC/1 EVENT 1",time:"TIME ESPC/1 EVENT 1",title:"TITLE EVENT ESPC/1 — 01",description:"ISI DESKRIPSI EVENT ESPC/1 DI SINI."},
+      {date:"DATE ESPC/1 EVENT 2",time:"TIME ESPC/1 EVENT 2",title:"TITLE EVENT ESPC/1 — 02",description:"ISI DESKRIPSI EVENT ESPC/1 DI SINI."},
+      {date:"DATE ESPC/1 EVENT 3",time:"TIME ESPC/1 EVENT 3",title:"TITLE EVENT ESPC/1 — 03",description:"ISI DESKRIPSI EVENT ESPC/1 DI SINI."}
+    ]
+  },
+
+  // ===== EDIT ESPC/2 EVENTS HERE =====
+  espc2:{
+    title:"ESPC/2 Events",
+    subtitle:"The next experience, together.",
+    events:[
+      {date:"DATE ESPC/2 EVENT 1",time:"TIME ESPC/2 EVENT 1",title:"TITLE EVENT ESPC/2 — 01",description:"ISI DESKRIPSI EVENT ESPC/2 DI SINI."},
+      {date:"DATE ESPC/2 EVENT 2",time:"TIME ESPC/2 EVENT 2",title:"TITLE EVENT ESPC/2 — 02",description:"ISI DESKRIPSI EVENT ESPC/2 DI SINI."},
+      {date:"DATE ESPC/2 EVENT 3",time:"TIME ESPC/2 EVENT 3",title:"TITLE EVENT ESPC/2 — 03",description:"ISI DESKRIPSI EVENT ESPC/2 DI SINI."}
+    ]
+  },
+
+  // ===== EDIT ESPC/3 EVENTS HERE =====
+  espc3:{
+    title:"ESPC/3 Events",
+    subtitle:"A new chapter of epic moments.",
+    events:[
+      {date:"DATE ESPC/3 EVENT 1",time:"TIME ESPC/3 EVENT 1",title:"TITLE EVENT ESPC/3 — 01",description:"ISI DESKRIPSI EVENT ESPC/3 DI SINI."},
+      {date:"DATE ESPC/3 EVENT 2",time:"TIME ESPC/3 EVENT 2",title:"TITLE EVENT ESPC/3 — 02",description:"ISI DESKRIPSI EVENT ESPC/3 DI SINI."},
+      {date:"DATE ESPC/3 EVENT 3",time:"TIME ESPC/3 EVENT 3",title:"TITLE EVENT ESPC/3 — 03",description:"ISI DESKRIPSI EVENT ESPC/3 DI SINI."}
+    ]
+  }
+};
+
+// =====================================================
+// INTRODUCING ESPC VIDEO — EDIT HERE
+// Put a YouTube/Vimeo embed URL in videoUrl.
+// Leave it empty to show a beautiful placeholder.
+// =====================================================
+const introducingVideoUrl = "VIDEO EMBED URL — INTRODUCING ESPC";
+
+// Apply the configurable ESPC logo to the Home button.
+(function initEspcLogo(){
+  const logo=document.getElementById("espcLogo");
+  if(!logo || !espcLogoUrl || espcLogoUrl.includes("DROPBOX_LOGO_LINK_HERE")) return;
+  const src=normalizeImageUrl(espcLogoUrl);
+  if(!src) return;
+  logo.src=src;
+  logo.addEventListener("error",()=>{ logo.removeAttribute("src"); });
+})();
+
+// -----------------------------
+// Navigation / page system
+// -----------------------------
+const views = document.querySelectorAll(".page-view");
+const topbar = document.getElementById("topbar");
+const navlinks = document.getElementById("navlinks");
+const menuBtn = document.getElementById("menuBtn");
+const toast = document.getElementById("toast");
+
+function showToast(text){
+  toast.textContent=text;
+  toast.classList.add("show");
+  setTimeout(()=>toast.classList.remove("show"),900);
+}
+
+function setView(key, updateHash=true){
+  const valid=["home","espc1","espc2","espc3","espc1-events","espc2-events","espc3-events"];
+  if(!valid.includes(key)) key="home";
+  views.forEach(v=>v.classList.remove("active"));
+  document.getElementById("view-"+key).classList.add("active");
+  navlinks.classList.remove("open");
+  const themeKey = key.includes("espc1") ? "espc1" : key.includes("espc2") ? "espc2" : key.includes("espc3") ? "espc3" : "home";
+  document.documentElement.style.setProperty("--accent",
+    themeKey==="espc1" ? "#bcebdc" : themeKey==="espc2" ? "#ff739f" : themeKey==="espc3" ? "#a14dff" : "#bcebdc"
+  );
+  window.scrollTo({top:0,behavior:"smooth"});
+  if(updateHash) history.replaceState(null,"","#"+key);
+  setTimeout(()=>observeReveals(),120);
+}
+
+function routeFromHash(){
+  const key=location.hash.replace("#","") || "home";
+  setView(key,false);
+}
+window.addEventListener("hashchange",routeFromHash);
+
+document.addEventListener("click",(e)=>{
+  const go=e.target.closest("[data-go]");
+  if(go){
+    e.preventDefault();
+    const key=go.dataset.go;
+    showToast(key==="home" ? "Back to ESPC" : "Opening "+key.toUpperCase());
+    setView(key);
+  }
+  const scrollBtn=e.target.closest("[data-scroll]");
+  if(scrollBtn){
+    document.getElementById(scrollBtn.dataset.scroll)?.scrollIntoView({behavior:"smooth"});
+  }
+});
+
+document.querySelector("[data-home-anchor]")?.addEventListener("click",(e)=>{
+  if(document.getElementById("view-home").classList.contains("active")){
+    const id=e.currentTarget.getAttribute("href").slice(1);
+    setTimeout(()=>document.getElementById(id)?.scrollIntoView({behavior:"smooth"}),20);
+  }else{
+    e.preventDefault(); setView("home");
+    setTimeout(()=>document.getElementById("contact")?.scrollIntoView({behavior:"smooth"}),450);
+  }
+});
+
+menuBtn.addEventListener("click",()=>navlinks.classList.toggle("open"));
+
+window.addEventListener("scroll",()=>{
+  topbar.classList.toggle("scrolled",window.scrollY>15);
+},{passive:true});
+
+// -----------------------------
+// Theme
+// -----------------------------
+const themeBtn=document.getElementById("themeBtn");
+const savedTheme=localStorage.getItem("espc-theme");
+if(savedTheme==="dark") document.documentElement.classList.add("dark");
+function updateThemeIcon(){themeBtn.textContent=document.documentElement.classList.contains("dark")?"☀":"☾"}
+updateThemeIcon();
+themeBtn.addEventListener("click",()=>{
+  document.documentElement.classList.toggle("dark");
+  localStorage.setItem("espc-theme",document.documentElement.classList.contains("dark")?"dark":"light");
+  updateThemeIcon();
+});
+
+// -----------------------------
+// Render each mall from data
+// -----------------------------
+function safeMapUrl(url){
+  return /^https?:\/\//i.test(url) ? url : "#";
+}
+function renderMall(key){
+  const root=document.getElementById("view-"+key);
+  const data=mallData[key];
+  root.querySelectorAll('[data-field="description"]').forEach(el=>el.textContent=data.description);
+  root.querySelectorAll('[data-field="description2"]').forEach(el=>el.textContent=data.description);
+  root.querySelectorAll('[data-field="subtitle"]').forEach(el=>el.textContent=data.subtitle);
+  root.querySelectorAll('[data-field="address"],[data-field="address2"]').forEach(el=>el.textContent=data.address);
+  root.querySelectorAll('[data-field="map"]').forEach(el=>{
+    el.href=safeMapUrl(data.mapUrl);
+    if(el.href==="#" || !data.mapUrl.startsWith("http")) el.onclick=(e)=>{e.preventDefault();showToast("Edit the Google Maps URL in mallData");};
+  });
+  const gallery=root.querySelector("[data-gallery]");
+  gallery.innerHTML="";
+  data.images.slice(0,6).forEach((src,i)=>{
+    const btn=document.createElement("button");
+    btn.className="gallery-item";
+    btn.setAttribute("aria-label","Open preview "+(i+1));
+    if(/^https?:\/\//i.test(src)){
+      const img=document.createElement("img");
+      img.loading="lazy"; img.alt=data.name+" preview "+(i+1); img.src=src;
+      img.onerror=()=>{btn.innerHTML='<div class="placeholder">Image unavailable<br><small>Edit this image URL in mallData</small></div>';};
+      btn.appendChild(img);
+      const overlay=document.createElement("div"); overlay.className="gallery-overlay"; overlay.textContent=`Preview ${i+1} / 6`; btn.appendChild(overlay);
+    }else{
+      btn.innerHTML='<div class="placeholder">Preview Image '+(i+1)+'<br><small>Replace this placeholder with your image URL</small></div>';
+    }
+    btn.addEventListener("click",()=>openLightbox(key,i));
+    gallery.appendChild(btn);
+  });
+}
+["espc1","espc2","espc3"].forEach(renderMall);
+
+// -----------------------------
+// Render event pages
+// -----------------------------
+function renderEvents(key){
+  const root=document.getElementById("view-"+key+"-events");
+  if(!root) return;
+  const data=eventData[key];
+  root.querySelector('[data-event-field="subtitle"]').textContent=data.subtitle;
+  const list=root.querySelector('[data-events]');
+  list.innerHTML="";
+  data.events.forEach((event,index)=>{
+    const card=document.createElement("article");
+    card.className="event-card reveal";
+    card.innerHTML=`
+      <div class="event-date">◷ ${escapeHtml(event.date)} <span>•</span> ${escapeHtml(event.time)}</div>
+      <h3>${escapeHtml(event.title)}</h3>
+      <p>${escapeHtml(event.description)}</p>
+      <div class="event-meta"><span>ESPC/${key.slice(-1)}</span><span>Event ${String(index+1).padStart(2,"0")}</span></div>`;
+    list.appendChild(card);
+  });
+}
+function escapeHtml(value){
+  return String(value).replace(/[&<>'"]/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[char]));
+}
+["espc1","espc2","espc3"].forEach(renderEvents);
+
+function renderIntroducingVideos(){
+  document.querySelectorAll("[data-video-frame]").forEach(frame=>{
+    frame.innerHTML="";
+    if(/^https?:\/\//i.test(introducingVideoUrl) && !introducingVideoUrl.includes("VIDEO EMBED URL")){
+      const iframe=document.createElement("iframe");
+      iframe.src=introducingVideoUrl;
+      iframe.title="Introducing ESPC";
+      iframe.loading="lazy";
+      iframe.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      iframe.allowFullscreen=true;
+      frame.appendChild(iframe);
+    }else{
+      frame.innerHTML='<div class="video-placeholder"><div><strong>Introducing ESPC</strong><span>Edit introducingVideoUrl in the HTML to add your video.</span></div></div>';
+    }
+  });
+}
+renderIntroducingVideos();
+
+// -----------------------------
+// Lightbox
+// -----------------------------
+let lbKey="espc1",lbIndex=0;
+const lightbox=document.getElementById("lightbox"),lbImage=document.getElementById("lbImage"),lbCount=document.getElementById("lbCount");
+function openLightbox(key,index){
+  const src=mallData[key].images[index];
+  if(!/^https?:\/\//i.test(src)){showToast("Add an image URL first");return;}
+  lbKey=key;lbIndex=index;updateLightbox();
+  lightbox.classList.add("open");lightbox.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
+}
+function updateLightbox(){
+  lbImage.src=mallData[lbKey].images[lbIndex];
+  lbImage.alt=mallData[lbKey].name+" preview "+(lbIndex+1);
+  lbCount.textContent=`${lbIndex+1} / 6`;
+}
+function closeLightbox(){lightbox.classList.remove("open");lightbox.setAttribute("aria-hidden","true");document.body.style.overflow=""}
+function nextImg(){lbIndex=(lbIndex+1)%6;updateLightbox()}
+function prevImg(){lbIndex=(lbIndex+5)%6;updateLightbox()}
+document.getElementById("lbClose").onclick=closeLightbox;
+document.getElementById("lbNext").onclick=nextImg;
+document.getElementById("lbPrev").onclick=prevImg;
+lightbox.addEventListener("click",(e)=>{if(e.target===lightbox)closeLightbox()});
+document.addEventListener("keydown",(e)=>{
+  if(!lightbox.classList.contains("open"))return;
+  if(e.key==="Escape")closeLightbox();
+  if(e.key==="ArrowRight")nextImg();
+  if(e.key==="ArrowLeft")prevImg();
+});
+
+// -----------------------------
+// Scroll reveal
+// -----------------------------
+let observer;
+function observeReveals(){
+  if(observer)observer.disconnect();
+  observer=new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add("visible")});
+  },{threshold:.12});
+  document.querySelectorAll(".page-view.active .reveal").forEach(el=>observer.observe(el));
+}
+observeReveals();
+routeFromHash();
+</script>
+</body>
+</html>
