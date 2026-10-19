@@ -1,0 +1,6 @@
+{
+  "name": "NeubytrixID",
+  "description": "NeubytrixID is a futuristic, premium technology platform creating modern digital experiences, intelligent technology, and innovative solutions designed for what's next.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

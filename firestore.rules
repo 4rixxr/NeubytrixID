@@ -1,0 +1,40 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128;
+    }
+
+    // User profile document
+    match /users/{userId} {
+      allow get: if isValidId(userId);
+      allow list: if false; // Users cannot list other users
+      allow create, update: if isValidId(userId) && (isSignedIn() ? request.auth.uid == userId : true);
+      allow delete: if isOwner(userId);
+
+      // Uploaded documents subcollection
+      match /documents/{documentId} {
+        allow get, list: if isValidId(userId);
+        allow create, update: if isValidId(userId) && (isSignedIn() ? request.auth.uid == userId : true);
+        allow delete: if isValidId(userId) && (isSignedIn() ? request.auth.uid == userId : true);
+      }
+
+      // Gemini AI Chat Sessions subcollection
+      match /chat_sessions/{sessionId} {
+        allow get, list: if isValidId(userId);
+        allow create, update: if isValidId(userId) && (isSignedIn() ? request.auth.uid == userId : true);
+        allow delete: if isValidId(userId) && (isSignedIn() ? request.auth.uid == userId : true);
+      }
+    }
+  }
+}

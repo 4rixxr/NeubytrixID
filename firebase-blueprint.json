@@ -1,0 +1,74 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile, level, streak and educational settings",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "fullName": { "type": "string" },
+        "email": { "type": "string" },
+        "schoolLevel": { "type": "string" },
+        "grade": { "type": "string" },
+        "userCode": { "type": "string" },
+        "xp": { "type": "number" },
+        "level": { "type": "number" },
+        "streakDays": { "type": "number" },
+        "updatedAt": { "type": "string" },
+        "onboardingCompleted": { "type": "boolean" },
+        "targets": { "type": "array" },
+        "learningStyles": { "type": "array" },
+        "dailyStudyTime": { "type": "string" },
+        "totalStudyMinutes": { "type": "number" },
+        "quizzesCompleted": { "type": "number" },
+        "materialsLearned": { "type": "number" }
+      },
+      "required": ["uid", "email"]
+    },
+    "UserDocument": {
+      "title": "UserDocument",
+      "description": "Document uploaded by user for AI analysis and reading",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "subject": { "type": "string" },
+        "fileName": { "type": "string" },
+        "fileType": { "type": "string" },
+        "rawText": { "type": "string" },
+        "summary": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "title"]
+    },
+    "ChatSession": {
+      "title": "ChatSession",
+      "description": "Multi-turn Gemini chat conversation history",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "model": { "type": "string" },
+        "role": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "userId"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Stores user learning profile and statistics"
+    },
+    "/users/{userId}/documents/{documentId}": {
+      "schema": "UserDocument",
+      "description": "Stores user uploaded study documents readable by Gemini"
+    },
+    "/users/{userId}/chat_sessions/{sessionId}": {
+      "schema": "ChatSession",
+      "description": "Stores Gemini AI conversation threads"
+    }
+  }
+}
